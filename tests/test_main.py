@@ -15,3 +15,9 @@ def test_health_check():
     response = client.get('/health')
     assert response.status_code == 200
     assert response.json() == {'status': 'ok'}
+
+
+def test_get_item():
+    response = client.get('/items/42')
+    assert response.status_code == 200
+    assert response.json() == {'item_id': 42, 'name': 'Item 42'}

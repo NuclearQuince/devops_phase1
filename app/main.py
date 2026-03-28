@@ -12,3 +12,8 @@ def read_root():
 @app.get('/health')
 def health_check():
     return {'status': 'ok'}
+
+
+@app.get('/items/{item_id}')
+def get_item(item_id: int):
+    return {'item_id': item_id, 'name': f'Item {item_id}'}
