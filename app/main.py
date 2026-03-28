@@ -9,7 +9,6 @@ def read_root():
     return {'message': 'Hello, Mihir!', 'status': 'healthy'}
 
 
-
 @app.get('/health')
 def health_check():
     return {'status': 'ok'}
