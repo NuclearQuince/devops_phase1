@@ -1,0 +1,6 @@
+# Global owner — reviews all PRs
+* @NuclearQuince
+
+# Specific owners for sensitive files
+.github/workflows/ @NuclearQuince
+requirements.txt @NuclearQuince
