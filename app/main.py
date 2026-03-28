@@ -3,9 +3,12 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
+
 @app.get('/')
 def read_root():
-    return {'message': 'Hello, DevOps!', 'status': 'healthy'}
+    return {'message': 'Hello, Mihir!', 'status': 'healthy'}
+
+
 
 @app.get('/health')
 def health_check():
