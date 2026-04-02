@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-phase1-app
+  labels:
+    app: devops-phase1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devops-phase1
+  template:
+    metadata:
+      labels:
+        app: devops-phase1
+    spec:
+      containers:
+        - name: app
+          image: devops-phase1:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
