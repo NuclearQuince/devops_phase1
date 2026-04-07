@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: devops-phase1:latest
-          imagePullPolicy: Never
-          ports:
+          image: nuclearquince/devops-phase1:latest
+          imagePullPolicy: Always
+          ports:  
             - containerPort: 8000
