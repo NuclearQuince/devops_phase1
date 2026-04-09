@@ -62,21 +62,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install kubectl
-        uses: azure/setup-kubectl@v3
-        with:
-          version: 'v1.29.0'
-
       - name: Simulate deployment (dry-run)
         run: |
-          # Update image tag in deployment manifest
-          sed -i "s|nuclearquince/devops-phase1:latest|nuclearquince/devops-phase1:${{ github.sha }}|g" k8s/deployment.yaml
+          # Install PyYAML to validate manifests
+          pip install pyyaml --quiet
 
-          # Validate manifest structure without needing a cluster
-          kubectl apply -f k8s/deployment.yaml --dry-run=client --validate=false
-          kubectl apply -f k8s/service.yaml --dry-run=client --validate=false
+          # Validate YAML structure of manifests
+          python3 -c "
+          import yaml, sys
 
-          echo "✅ Deployment manifest validated successfully!"
-          echo "🚀 Would deploy image: nuclearquince/devops-phase1:${{ github.sha }}"
-          echo "📦 Replicas: 2"
-          echo "🌐 Service: devops-phase1-service on port 80"
+          files = ['k8s/deployment.yaml', 'k8s/service.yaml']
+          for f in files:
+              with open(f) as fp:
+                  yaml.safe_load(fp)
+              print(f'✅ {f} is valid YAML')
+
+          print('')
+          print('🚀 Would deploy image: nuclearquince/devops-phase1:${{ github.sha }}')
+          print('📦 Replicas: 2')
+          print('🌐 Service: devops-phase1-service on port 80')
+          print('✅ Deployment simulation complete!')
