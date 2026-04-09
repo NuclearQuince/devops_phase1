@@ -67,8 +67,16 @@ jobs:
         with:
           version: 'v1.29.0'
 
-      - name: Update deployment image
+      - name: Simulate deployment (dry-run)
         run: |
-          kubectl set image deployment/devops-phase1-app \
-            app=nuclearquince/devops-phase1:${{ github.sha }} \
-            --dry-run=client -o yaml
+          # Update image tag in deployment manifest
+          sed -i "s|nuclearquince/devops-phase1:latest|nuclearquince/devops-phase1:${{ github.sha }}|g" k8s/deployment.yaml
+
+          # Validate the manifest is correct
+          kubectl apply -f k8s/deployment.yaml --dry-run=client
+          kubectl apply -f k8s/service.yaml --dry-run=client
+
+          echo "✅ Deployment manifest validated successfully!"
+          echo "🚀 Would deploy image: nuclearquince/devops-phase1:${{ github.sha }}"
+          echo "📦 Replicas: 2"
+          echo "🌐 Service: devops-phase1-service on port 80"
