@@ -66,19 +66,4 @@ jobs:
         run: |
           # Install PyYAML to validate manifests
           pip install pyyaml --quiet
-
-          # Validate YAML structure of manifests
-          python3 -c "
-          import yaml, sys
-
-          files = ['k8s/deployment.yaml', 'k8s/service.yaml']
-          for f in files:
-              with open(f) as fp:
-                  yaml.safe_load(fp)
-              print(f'✅ {f} is valid YAML')
-
-          print('')
-          print('🚀 Would deploy image: nuclearquince/devops-phase1:${{ github.sha }}')
-          print('📦 Replicas: 2')
-          print('🌐 Service: devops-phase1-service on port 80')
-          print('✅ Deployment simulation complete!')
+          python3 scripts/validate_manifests.py
